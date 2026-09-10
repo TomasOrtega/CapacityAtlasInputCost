@@ -5,9 +5,10 @@ See the License for the specific language governing permissions and limitations.
 -/
 
 import CapacityAtlasCost
+import Lean.Meta
 import Lean.Util.CollectAxioms
 
-open Lean
+open Lean Meta
 
 private def checkProofs : CoreM (Array String × Nat) := do
   let env ← getEnv
@@ -25,8 +26,19 @@ private def checkProofs : CoreM (Array String × Nat) := do
     unless unexpected.isEmpty do
       errors := errors.push s!"{name}: unexpected axioms {unexpected.toList}"
   if count == 0 then errors := errors.push "No proof declarations were loaded"
-  unless env.contains `CapacityAtlasCost.finiteDMCInputCostCapacity do
+  let certificateName := `CapacityAtlasCost.finiteDMCInputCostCapacity
+  let statementName := `CapacityAtlas.FiniteChannel.finiteDMCInputCostCapacityStatement
+  if !env.contains certificateName then
     errors := errors.push "The registered certificate is missing"
+  else if !env.contains statementName then
+    errors := errors.push "The canonical Atlas statement is missing"
+  else
+    let typesMatch ← MetaM.run' do
+      let certificateType ← inferType (← mkConstWithFreshMVarLevels certificateName)
+      let statementType ← inferType (← mkConstWithFreshMVarLevels statementName)
+      isDefEq certificateType statementType
+    unless typesMatch do
+      errors := errors.push "The certificate type does not match the canonical Atlas statement"
   return (errors, count)
 
 def main : IO UInt32 := do

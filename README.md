@@ -4,7 +4,7 @@ Lean certificate for Capacity Atlas problem `finite-dmc-input-cost`, claim `exac
 
 The proof combines finite-mixture concavity and Fano's inequality with random coding whose inadmissible codewords are replaced by a fixed feasible word. The added error tends to zero by a cost second-moment bound. At a minimum feasible budget, admissible input laws are supported on minimum-cost symbols; the proof handles this endpoint separately. Mixing with a strictly cheaper symbol handles boundary input distributions when such a symbol exists.
 
-Run `lake --wfail build` and `lake exe capacity_cost_audit`. The audit checks every declaration in the proof modules and permits only Lean's standard axioms `propext`, `Quot.sound`, and `Classical.choice`. It rejects any transitive dependence on the admitted Atlas claim.
+Run `lake --wfail build` and `lake exe capacity_cost_audit`. The audit checks every declaration in the proof modules and permits only Lean's standard axioms `propext`, `Quot.sound`, and `Classical.choice`. It rejects any transitive dependence on the admitted Atlas claim and checks that the certificate type is definitionally equal to the canonical claim type.
 
 The Atlas dependency is pinned in `lakefile.toml` and `capacity-atlas-proof.yaml`. The final certificate proves the canonical proposition directly; it does not use the registered statement as a premise.
 
