@@ -1,0 +1,10 @@
+problem: finite-dmc-input-cost
+claim_id: exact-capacity
+atlas:
+  repository: TomasOrtega/CapacityAtlas
+  commit: b3b44c72502825befc6d12f99e1ff449e62355ea
+  claim_version: 1
+lean:
+  toolchain: v4.32.0
+  file: CapacityAtlasCost/Capacity.lean
+  declaration: CapacityAtlasCost.finiteDMCInputCostCapacity

@@ -1,0 +1,20 @@
+name = "CapacityAtlasInputCost"
+version = "0.1.0"
+defaultTargets = ["CapacityAtlasCost", "capacity_cost_audit"]
+
+[leanOptions]
+autoImplicit = false
+
+[[lean_lib]]
+name = "CapacityAtlasCost"
+
+[[lean_exe]]
+name = "capacity_cost_audit"
+root = "CapacityAtlasCost.Audit"
+supportInterpreter = true
+
+[[require]]
+name = "CapacityAtlas"
+git = "https://github.com/TomasOrtega/CapacityAtlas.git"
+rev = "b3b44c72502825befc6d12f99e1ff449e62355ea"
+subDir = "lean"
